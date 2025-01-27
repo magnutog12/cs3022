@@ -3,6 +3,8 @@ Magnus Terry, Tony Caldwell
 01/26/2025
 This program sorts music files using maps 
 and prints in the desired format. 
+Compile command: g++ -o lib_info lib_info.cpp
+Github repo URL: https://github.com/magnutog12/cs3022.git
 */
 #include <iostream>
 #include <map>
@@ -31,13 +33,12 @@ struct Album
 struct Artist
 {
     map<string, Album> albums;
-    // Created this since the write up advises to make a map for artists to for adding the artist only once - unsure if needed
     map<string, Artist> singers;
     string name;
     int time;
     int nsongs;
 };
-// used C++ reference to figure out the substr as well as how to format the time
+// used C++ reference strings to explain .substr as well as how to format the time from a string to int and back
 int time_to_seconds(const string& time){
     char divider = ':';
     size_t position = time.find(divider);
@@ -49,7 +50,7 @@ int time_to_seconds(const string& time){
     int total = (convert_minutes * 60) + convert_seconds;
     return total;
 }
-
+// For formatting the time collected from seconds back into minutes
 string time_coversion(int total){
     
     int total_min = total / 60;
