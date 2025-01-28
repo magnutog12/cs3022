@@ -1,0 +1,7 @@
+Magnus Terry, Tony Caldwell
+magnutog12, commwell
+https://github.com/magnutog12/cs3022
+Compiled with g++ -o lib_info lib_info.cpp
+Summary: Magnus handled the input, formatting and loops. Tony created the time conversion method and we both debugged the formatting and containers.
+        We enjoyed working together, the project felt less stressful than previous classes labs. We were able to explain concepts and ideas on how
+        code should be done. We cleared up errors on each others code and worked well together.
