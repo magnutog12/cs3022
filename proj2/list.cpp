@@ -15,22 +15,13 @@ List::~List() {
 }
 
 void List::push_front(const std::string &s) {
-    // Make a new node
+     // Make a new node
     // Place in front of head node
-    // stoi the value - if fail, default to 0
-
-    int value;
-    for(size_t i = 0; i < s.size(); i++){
-        if(!isdigit(s[i])){
-            value = stoi(s);
-        }
-        else{
-            value = 0;
-        }
-    }
-
+    // stoi the value 
+    
     Node* newNode = new Node();
-    newNode->number = value;
+    newNode->string = s;
+    newNode->number = stoi(s);    
     newNode->next = head;
     head = newNode;
 }
