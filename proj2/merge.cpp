@@ -14,15 +14,11 @@ Node *merge(Node *left, Node *right, bool numeric);
 
 void merge_sort(List &l, bool numeric)
 { 
-    if(l.head == nullptr){
+    if(l.head != nullptr){
        return;
     }
     if(numeric){
     l.head = msort(l.head, numeric);
-    }
-    else {
-        l.head = msort(l.head, numeric);
-
     }
 }
 
@@ -34,26 +30,19 @@ Node *msort(Node *head, bool numeric)
     if(head == nullptr || head->next == nullptr){
         return head;
     }
-    if(numeric){
+   else{
     split(head, left, right);
     left = msort(left, numeric);
     right = msort(right, numeric);
-    }
-else {
-    split(head, left, right);
-    left = msort(left, numeric);
-    right = msort(right, numeric);
-}
-return merge(left, right, numeric);
+    
+   }
+   return merge(left, right, numeric);
+
 }
 
 void split(Node *head, Node *&left, Node *&right)
 {
-    if(head == nullptr || head->next == nullptr){
-        left = head;
-        right = nullptr;
-        return;
-    }
+   
     Node *slow = head;
     Node *fast = head->next;
     // When fast pointer is at null - slow is the middle node
@@ -67,53 +56,43 @@ void split(Node *head, Node *&left, Node *&right)
     slow->next = nullptr;
     left = head;
 }
-
+// Recreated from Dr. Emrich's notes
 Node *merge(Node *left, Node *right, bool numeric)
-{
+{   
     Node merger;
     Node *new_list = &merger;
     while(left != nullptr && right != nullptr){
     if (numeric)
         {
-            if(left == nullptr){
-                return right;
-            }
-            if(right == nullptr){
-                return left;
-            }
             if (left->number <= right->number)
             {
                 new_list->next = left;
-            
+                new_list = left;
                 left = left->next;
             }
             else
             {
                 new_list->next = right;
-                
+                new_list = right;
                 right = right->next;
             }
         }
-        else if(numeric == false)
+        else
         {
-            if(left == nullptr){
-                return right;
-            }
-            if(right == nullptr){
-                return left;
-            }
-            if (left->string <= right->string)
+            if(left->string < right->string)
             {
                 new_list->next = left;
+                new_list = left;
                 left = left->next;
             }
             else
             {
                 new_list->next = right;
-            
+                new_list = right;
                 right = right->next;
             }
         }
     }
-    return new_list;
+    new_list->next = (left == nullptr) ? right : left;
+    return merger.next;
 }
