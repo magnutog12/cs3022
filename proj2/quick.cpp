@@ -61,7 +61,7 @@ Node *qsort(Node *head, bool numeric) {
 		last->next = pivot;
 		return left;
 	}
-//	concatenate(left, right);
+	concatenate(left, right);
 
 //	return head;
 }
@@ -118,7 +118,7 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
 		//NOT NUMERIC, SORT STRING NOW
 		else { //sort strings
 			string nodeVal = curr->string;
-			string pivotVal = curr->string;
+			string pivotVal = pivot->string;
 			if(nodeVal <= pivotVal) { //goes on left sublist
 				if(left == nullptr) {
 					left = curr;
@@ -129,6 +129,17 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
 					leftEnd = curr;
 				}
 
+			}
+			else { //goes on right sublist
+				 //assign current value
+                if(right == nullptr) {
+                    right = curr;
+                    rightEnd = curr;
+                }
+                else {
+                    rightEnd->next = curr;
+                    rightEnd = curr;
+                }
 			}
 		}
 		curr = tmp;
