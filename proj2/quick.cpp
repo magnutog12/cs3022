@@ -24,7 +24,7 @@ Node *concatenate(Node *left, Node *right);
  */
 //wrapper function
 void quick_sort(List &l, bool numeric) {
-	if(l.head == NULL) return;
+	if(l.head == nullptr) return;
 
 	l.head = qsort(l.head, numeric);
 }
@@ -36,7 +36,7 @@ Node *qsort(Node *head, bool numeric) {
 	Node *left;
 	Node *right;
 	Node *pivot = head; //experiement with
-	if(head == nullptr) {
+	if((head == nullptr) || (head->next == nullptr)) {
 		return head; //sort over, reached last node
 	}
 
@@ -48,10 +48,22 @@ Node *qsort(Node *head, bool numeric) {
 	right = qsort(right, numeric);
 
 	//set pivot between sublists
-	pivot->next = right; //?check
-	concatenate(left, right);
+	pivot->next = right;
+	
+	//set pivot as head if left list is empty
+	if(left == nullptr) return pivot;
+	//attach pivot to end of left list
+	else {
+		Node *last = left;
+		while(last->next != nullptr) {
+			last = last->next;
+		}
+		last->next = pivot;
+		return left;
+	}
+//	concatenate(left, right);
 
-	return head;
+//	return head;
 }
 
 /* partition is a helper function that splits the singly-linked list into two left and
@@ -73,9 +85,9 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
 	while(curr != nullptr) {
 		Node *tmp = curr->next; //store in temporary node
 		curr->next = nullptr;
-		if(numeric) {
-			//numerical. sort number
-			int nodeVal = curr->number; //access number value
+		if(numeric) { //numerical. sort number
+			//gather node and pivot value
+			int nodeVal = curr->number;
 			int pivotVal = pivot->number;
 
 			if(nodeVal <= pivotVal) { //goes on left sublist
@@ -104,8 +116,7 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
 		}
 
 		//NOT NUMERIC, SORT STRING NOW
-		else {
-			//sort strings
+		else { //sort strings
 			string nodeVal = curr->string;
 			string pivotVal = curr->string;
 			if(nodeVal <= pivotVal) { //goes on left sublist
