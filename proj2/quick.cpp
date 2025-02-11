@@ -1,4 +1,4 @@
-
+//NAME: Kylie Norosky
 //PROGRAM: quick.cpp
 //DESCRIPTION: custom implementation of quick sort. 
 /* divide and conquer but amongst a pivot. Use head node as starting point. 
@@ -18,20 +18,14 @@ Node *concatenate(Node *left, Node *right);
 
 // Implementations
 
-/* quick_sort takes a struct List and whether or not the comparison should be numeric
- * and performs the quick sort algorithm. This function serves as a wrapper or helper
- * function for the recursive qsort function.
- */
-//wrapper function
+//wrapper function to perform qsort
 void quick_sort(List &l, bool numeric) {
 	if(l.head == nullptr) return;
 
 	l.head = qsort(l.head, numeric);
 }
 
-/*qsort is the recursive portion of the algorithm and calls partition to divide the
- * list and calls concatenate to conquer. It returns the new head of the list. */
-//Recursive, divide and concatenate. 
+//Call Recursive Functions
 Node *qsort(Node *head, bool numeric) {
 	Node *left;
 	Node *right;
@@ -40,8 +34,7 @@ Node *qsort(Node *head, bool numeric) {
 		return head; //sort over, reached last node
 	}
 
-	//use head as pivot
-	//call partition function to split into 2 sublists
+	//using pivot, call partition function to split into 2 sublists
 	partition(head, pivot, left, right, numeric);
 
 	left = qsort(left, numeric);
@@ -50,8 +43,9 @@ Node *qsort(Node *head, bool numeric) {
 	//set pivot between sublists
 	pivot->next = right;
 	
-	//set pivot as head if left list is empty
+	//return pivot as head if left list is empty
 	if(left == nullptr) return pivot;
+
 	//attach pivot to end of left list
 	else {
 		Node *last = left;
@@ -63,12 +57,9 @@ Node *qsort(Node *head, bool numeric) {
 	}
 	concatenate(left, right);
 
-//	return head;
+	return head;
 }
 
-/* partition is a helper function that splits the singly-linked list into two left and
- * right lists such that all elements less than the pivot are in the left side and
- * everything else is on the right. */
 //splits linked list based on pivot
 void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric) {
 	//initialize start to each sublist
@@ -115,7 +106,6 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
 			}
 		}
 
-		//NOT NUMERIC, SORT STRING NOW
 		else { //sort strings
 			string nodeVal = curr->string;
 			string pivotVal = pivot->string;
@@ -145,26 +135,17 @@ void partition(Node *head, Node *pivot, Node *&left, Node *&right, bool numeric)
 		curr = tmp;
 	}
 }
-//increment left pointer until element is greater than pivot or points to start
-//Decrement right pointer until points to element less than pivot
-//check if done? If not: swap the two elements incr left, dec right, repeat
 
-
-/*concatenate is a helper function that combines both the left and right lists and
- * returns the new head of the list. */
 //combines left and right lists
 Node *concatenate(Node *left, Node *right) {
-	/*first find the last node of the first linked list. Then, update the 
-	 * next pointer of the last node to the head node the second linked list */
-	/*left->next = right;
-	return left; */
 	if(left == nullptr) return right;
+	
 	//find last node of left sublist
 	Node *last = left;
 	while(last->next != nullptr) {
 		last = last->next;
 	}
-	last->next = right;
+	last->next = right; //set last left's next to point to right node
 	
 	return left;
 }
