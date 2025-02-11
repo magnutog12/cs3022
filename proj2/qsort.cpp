@@ -1,4 +1,4 @@
-// qsort.cpp
+ // qsort.cpp
 
 #include "volsort.h"
 
@@ -7,32 +7,50 @@
 #include <cstring>
 #include <array>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
-int int_cmp(const void *a, const void *b){
-    const int *ia = (const int *) a;
-    const int *ib = (const int*) b;
-    return *ia - *ib;
+
+//The qComparisonInt function is from Dr. Emrich's 302 course notes.
+int qComparisonInt(const void *a, const void *b){
+    const Node* ia = *(const Node **) a;
+    const Node* ib = *(const Node **) b;
+    if(ia->number > ib->number){
+        return 1;
+    }
+    else if(ia->number < ib->number){
+        return -1;
+    }
+    else{
+        return 0;
+    }
 }
 
 int cstring_cmp(const void *a, const void *b){
-    const char **ia = (const char **)a;
-    const char **ib = (const char **)b;
-    return strcmp(*ia, *ib);
+    const Node *ia = *(const Node **)a;
+    const Node *ib = *(const Node **)b;
+    char const *ai = ia->string.c_str();
+    char const *bi = ib->string.c_str();
+
+    return strcmp(ai, bi);
 }
 
 void qsort_sort(List &l, bool numeric) {
     Node* top = l.head;
     int count = 0;
-    
 
     while(top){
         count++;
         top = top->next;
     }
-    
-    Node* array[count];
+   
+    if(count == 0){ 
+        return;
+    };
+
+    Node** array;
+    array = new Node*[count];
 
     top = l.head;
     int index = 0;
@@ -42,16 +60,21 @@ void qsort_sort(List &l, bool numeric) {
         index++;
     }
 
-    if(numeric == true){
-        qsort(array, count, sizeof(Node*), int_cmp);
+    if(numeric){
+        qsort(array, count, sizeof(Node*), qComparisonInt);
     }
     else{
         qsort(array, count, sizeof(Node*), cstring_cmp);
     }
 
-    for(int i = 0; i < count; i++){
-        array[i]->next = array[i+1];
+    for(int i = 0; i < count - 1; i++){
+            array[i]->next = array[i + 1]; 
     }
 
+    array[index-1]->next = nullptr;
+
+    l.head = array[0];
+    
+    delete array;
 }
 
